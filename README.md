@@ -1,7 +1,7 @@
 # RL_lle
 ##### Created by Milad Abedi
 ##### Email: ma5904785@gmail.com
-The primary core of the Ras package by: M.S.Amiri/Email: msa0911@gmail.com
+The primary core of the Ras package by: M.S.Amiri
 ######
 ## Download:
   cd ./catkin_ws/src  
