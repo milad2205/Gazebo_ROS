@@ -5,7 +5,7 @@ The primary core of the Ras package by: M.S.Amiri
 ######
 ## Download:
   cd ./catkin_ws/src  
-  git clone https://github.com/milad2205/ROS.Gazebo_RL_exoskeleton.git
+  git clone https://github.com/milad2205/ROS.Gazebo_RL_Exoskeleton.git
 
 ## Launch the code:
   roslaunch lle_gazebo lle_gazebo.launch  
