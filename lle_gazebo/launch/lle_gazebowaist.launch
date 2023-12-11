@@ -1,0 +1,48 @@
+﻿<launch>
+  <!-- We resume the logic in gazebo_ros package empty_world.launch, -->
+  <!-- changing only the name of the world to be launched -->
+
+  <rosparam file="$(find lle_control)/config/lle_controlwaist.yaml" command="load"/>
+
+<!-- load the controllers -->
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+	output="screen" ns="/lle" args="--namespace=/lle joint_state_controller
+j_hip_r_position_controller
+j_hip_l_position_controller
+j_knee_r_position_controller
+j_knee_l_position_controller
+j_foot_r_position_controller
+j_foot_l_position_controller
+waist_position_controller
+right_lower_arm_position_controller
+left_lower_arm_position_controller
+"/>
+
+  <!-- convert joint states to TF transforms for rviz, etc -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+    respawn="false" output="screen">
+    <remap from="/joint_states" to="/lle/joint_states" />
+  </node>
+  
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" >
+  	<param name="use_gui" value="true"/>
+  </node>
+
+  <include file="$(find gazebo_ros)/launch/empty_world.launch">
+   <arg name="world_name" value="worlds/empty.world"/>
+    <arg name="paused" value="false"/>
+  
+
+  </include>
+
+  <!-- Load the URDF into the ROS Parameter Server -->
+  <param name="robot_description"
+	 command="$(find xacro)/xacro '$(find lle_description)/urdf/humancom.xacro'" />
+
+   <!-- Spawn lle into Gazebo -->
+  <node name="spawn_urdf" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+     args="-param robot_description -urdf -model lle -z 0.01"/>
+
+<!--node name="lle_walker" pkg="lle_gazebo" type="walker2.py" /-->
+
+</launch>

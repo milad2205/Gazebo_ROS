@@ -1,0 +1,26 @@
+<launch>
+
+  <rosparam file="$(find lle_control)/config/lle_control.yaml" command="load"/>
+
+<!-- load the controllers -->
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+	output="screen" ns="/lle" args="--namespace=/lle joint_state_controller
+j_hip_r_position_controller
+j_hip_l_position_controller
+j_knee_r_position_controller
+j_knee_l_position_controller
+j_foot_r_position_controller
+j_foot_l_position_controller
+
+"/>
+
+  <!-- convert joint states to TF transforms for rviz, etc -->
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"
+    respawn="false" output="screen">
+    <remap from="/joint_states" to="/lle/joint_states" />
+  </node>
+  
+  <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher" >
+  	<param name="use_gui" value="true"/>
+  </node>
+</launch>
